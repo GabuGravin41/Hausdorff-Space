@@ -3,6 +3,8 @@ import { IdeaSeparation } from '../types';
 
 // Vercel serverless function handles the proxy securely
 // Works on both local and deployed versions
+// In production, this will use the /api/openrouter serverless function
+// In development, this proxies through vite.config.ts middleware
 const OPENROUTER_ENDPOINT = "/api/openrouter";
 const MODEL = "deepseek/deepseek-chat"; // Free Deepseek variant
 
@@ -53,6 +55,16 @@ export const separateIdeas = async (inputText: string): Promise<IdeaSeparation> 
       const errorText = await response.text();
       console.error("Response status:", response.status);
       console.error("Response body:", errorText);
+      
+      // Provide user-friendly error messages
+      if (response.status === 401) {
+        throw new Error("API key is invalid. Please check your VITE_OPENROUTER_API_KEY environment variable.");
+      } else if (response.status === 429) {
+        throw new Error("Rate limit exceeded. Please try again in a few moments.");
+      } else if (response.status >= 500) {
+        throw new Error("OpenRouter service is temporarily unavailable. Please try again later.");
+      }
+      
       throw new Error(`OpenRouter API Error: ${response.status} ${response.statusText}`);
     }
 
@@ -60,7 +72,7 @@ export const separateIdeas = async (inputText: string): Promise<IdeaSeparation> 
     const responseText = data.choices[0]?.message?.content;
     
     if (!responseText) {
-      throw new Error("No response from model");
+      throw new Error("No response from model. Please try again.");
     }
 
     // Parse JSON response (remove markdown code blocks if present)
@@ -70,9 +82,21 @@ export const separateIdeas = async (inputText: string): Promise<IdeaSeparation> 
       .trim();
 
     const result = JSON.parse(cleanedText) as IdeaSeparation;
+    
+    // Validate the response structure
+    if (!result.coreArgument || !Array.isArray(result.distinctPoints) || typeof result.rigorScore !== 'number') {
+      throw new Error("Invalid response format from AI model. Please try again.");
+    }
+    
     return result;
   } catch (error) {
     console.error("OpenRouter Analysis Failed:", error);
-    throw error;
+    
+    // Re-throw with user-friendly message if it's a generic error
+    if (error instanceof Error) {
+      throw error;
+    }
+    
+    throw new Error("Failed to analyze input. Please check your connection and try again.");
   }
 };

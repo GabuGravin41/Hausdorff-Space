@@ -41,12 +41,23 @@ const AIColloquium: React.FC = () => {
     if (!input.trim()) return;
     
     setStatus(AnalysisStatus.THINKING);
+    setResult(null); // Clear previous result
+    
     try {
       const data = await separateIdeas(input);
       setResult(data);
       setStatus(AnalysisStatus.COMPLETE);
-    } catch (e) {
+    } catch (error) {
+      console.error('Analysis error:', error);
       setStatus(AnalysisStatus.ERROR);
+      // Show error message to user
+      setResult({
+        coreArgument: error instanceof Error ? error.message : 'An unexpected error occurred',
+        distinctPoints: [],
+        noiseReduction: [],
+        rigorScore: 0,
+        constructiveCritique: 'Please check your API key configuration and try again.'
+      });
     }
   };
 
@@ -114,8 +125,19 @@ const AIColloquium: React.FC = () => {
                 )}
 
                 {status === AnalysisStatus.ERROR && (
-                    <div className="flex items-center justify-center h-full text-red-400 font-mono text-xs">
-                        ERROR: COULD NOT CONVERGE. TRY AGAIN.
+                    <div className="flex flex-col items-center justify-center h-full space-y-4 p-6">
+                        <div className="text-red-400 font-mono text-xs text-center space-y-2">
+                            <p className="font-bold">ERROR: ANALYSIS FAILED</p>
+                            {result && result.coreArgument && (
+                                <p className="text-gray-400 text-[10px] max-w-sm">{result.coreArgument}</p>
+                            )}
+                            <button 
+                                onClick={() => setStatus(AnalysisStatus.IDLE)}
+                                className="mt-4 px-4 py-2 border border-red-400 text-red-400 hover:bg-red-400 hover:text-white transition-colors text-xs"
+                            >
+                                TRY AGAIN
+                            </button>
+                        </div>
                     </div>
                 )}
 
