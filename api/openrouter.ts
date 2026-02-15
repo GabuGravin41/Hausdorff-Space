@@ -27,8 +27,8 @@ export default async function handler(
 
   // Validate API key
   if (!OPENROUTER_API_KEY) {
-    console.error('VITE_OPENROUTER_API_KEY not set');
-    return res.status(500).json({ error: 'API configuration missing' });
+    console.error('Missing VITE_OPENROUTER_API_KEY environment variable');
+    return res.status(500).json({ error: 'API key not configured' });
   }
 
   try {

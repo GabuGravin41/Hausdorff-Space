@@ -8,8 +8,6 @@ export default defineConfig(({ mode }) => {
       server: {
         port: 3000,
         host: '0.0.0.0',
-        // Dev-only: proxy /api/openrouter to the serverless function handler
-        middlewareMode: false,
         configureServer: (server) => {
           server.middlewares.use('/api/openrouter', async (req, res, next) => {
             if (req.method !== 'POST') {
@@ -45,6 +43,16 @@ export default defineConfig(({ mode }) => {
       },
       plugins: [react()],
       define: {
+        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+      },
+      resolve: {
+        alias: {
+          '@': path.resolve(__dirname, '.'),
+        }
+      }
+    };
+  });
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
         'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
       },

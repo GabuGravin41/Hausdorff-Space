@@ -36,7 +36,7 @@ The local Vite dev middleware automatically proxies `/api/openrouter` requests t
 
 2. **Set environment variables:**
    - In Vercel dashboard, go to **Settings > Environment Variables**
-   - Add: `VITE_OPENROUTER_API_KEY` = `sk-or-v1-your-actual-api-key`
+   - Add: `OPENROUTER_API_KEY` = `sk-or-v1-your-actual-api-key` (without VITE_ prefix)
    - Click "Save"
 
 3. **Deploy:**
@@ -75,7 +75,7 @@ Hausdorff-Space/
 ## Troubleshooting
 
 **502 Bad Gateway on `/api/openrouter`**
-- Check that `VITE_OPENROUTER_API_KEY` is set in Vercel dashboard
+- Check that `OPENROUTER_API_KEY` (without VITE_ prefix) is set in Vercel dashboard
 - Verify API key is valid on [openrouter.io](https://openrouter.io)
 
 **API key not loading locally**
