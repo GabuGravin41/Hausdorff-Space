@@ -56,7 +56,7 @@ const AIColloquium: React.FC = () => {
         <div className="mb-8 text-center">
             <h2 className="text-3xl font-serif text-white mb-2">The Virtual Colloquium</h2>
             <p className="text-gray-400 font-mono text-sm">
-                AI-ASSISTED RIGOR TEST (POWERED BY GEMINI)
+                AI-ASSISTED RIGOR TEST (POWERED BY DEEPSEEK R1)
             </p>
             <p className="text-gray-500 mt-4 max-w-lg mx-auto">
                 Submit an argument. We will topologically separate the distinct points, remove the noise, and grade the rigor.
