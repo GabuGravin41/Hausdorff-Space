@@ -168,7 +168,7 @@ const App: React.FC = () => {
       />
 
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${scrolled || mobileMenuOpen ? 'bg-haus-black/90 backdrop-blur-md border-haus-gray py-4' : 'bg-transparent border-transparent py-6'}`}>
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${scrolled || mobileMenuOpen ? 'bg-haus-black/85 backdrop-blur-xl border-haus-gray py-4' : 'bg-haus-black/30 backdrop-blur-md border-transparent py-4 md:bg-transparent md:backdrop-blur-none md:py-6'}`}>
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-2 relative z-50">
             <div className="w-4 h-4 border border-haus-accent rounded-full bg-transparent"></div>
@@ -194,7 +194,7 @@ const App: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden text-white z-50 focus:outline-none"
+            className="md:hidden text-white z-50 focus:outline-none border border-white/20 bg-black/40 backdrop-blur-md rounded-lg p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -209,20 +209,24 @@ const App: React.FC = () => {
         </div>
 
         {/* Mobile Nav Overlay */}
-        <div className={`fixed inset-0 bg-haus-black z-40 transition-transform duration-300 md:hidden flex flex-col items-center justify-center space-y-8 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-           {navLinks.map((link) => (
-              <a 
-                key={link.label} 
-                href={link.href} 
-                onClick={handleNavClick}
-                className="text-white font-serif text-2xl hover:text-haus-accent transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
-            <a href="https://docs.google.com/forms" target="_blank" rel="noreferrer" className="text-haus-accent border border-haus-accent px-8 py-3 font-mono text-sm uppercase tracking-widest hover:bg-haus-accent hover:text-white transition-colors">
-                Apply to Join
+        <div className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-transform duration-300 md:hidden flex items-center justify-center ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div className="w-[calc(100%-3rem)] max-w-sm rounded-2xl border border-white/20 bg-haus-black/60 backdrop-blur-2xl px-5 py-6 shadow-2xl">
+            <div className="flex flex-col gap-3">
+              {navLinks.map((link) => (
+                <a 
+                  key={link.label} 
+                  href={link.href} 
+                  onClick={handleNavClick}
+                  className="text-gray-100 font-serif text-lg px-4 py-2 rounded-lg border border-transparent hover:border-white/20 hover:bg-white/10 hover:text-haus-accent transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+            <a href="https://docs.google.com/forms" target="_blank" rel="noreferrer" className="mt-5 block text-center text-haus-accent border border-haus-accent/70 rounded-lg px-4 py-2 font-mono text-xs uppercase tracking-widest hover:bg-haus-accent hover:text-white transition-colors">
+              Apply to Join
             </a>
+          </div>
         </div>
       </nav>
 

@@ -1,11 +1,11 @@
 
 import { IdeaSeparation } from '../types';
 
-// Vercel serverless function handles the proxy securely
-// Works on both local and deployed versions
-// In production, this will use the /api/openrouter serverless function
-// In development, this proxies through vite.config.ts middleware
-const OPENROUTER_ENDPOINT = "/api/openrouter";
+// Vercel serverless function handles the proxy securely.
+// In local dev, call the Express proxy directly to avoid stale Vite middleware/proxy state.
+const OPENROUTER_ENDPOINT = import.meta.env.DEV
+  ? "http://localhost:3001/api/openrouter"
+  : "/api/openrouter";
 const MODEL = "deepseek/deepseek-chat"; // Free Deepseek variant
 
 /**
@@ -63,6 +63,10 @@ export const separateIdeas = async (inputText: string): Promise<IdeaSeparation> 
         throw new Error("Rate limit exceeded. Please try again in a few moments.");
       } else if (response.status >= 500) {
         throw new Error("OpenRouter service is temporarily unavailable. Please try again later.");
+      } else if (response.status === 404) {
+        throw new Error("API route not found. If local, ensure server is running with `npm run dev`.");
+      } else if (response.status === 405) {
+        throw new Error("Method not allowed at API route. Restart dev server and try again.");
       }
       
       throw new Error(`OpenRouter API Error: ${response.status} ${response.statusText}`);
