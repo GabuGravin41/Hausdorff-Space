@@ -37,7 +37,6 @@ export const separateIdeas = async (inputText: string): Promise<IdeaSeparation> 
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
       },
       body: JSON.stringify({
         model: MODEL,
