@@ -1,11 +1,41 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { separateIdeas } from '../services/geminiService';
 import { IdeaSeparation, AnalysisStatus } from '../types';
+
+const THINKING_STEPS = [
+  "Initializing Hausdorff Axioms...",
+  "Identifying Axiomatic Core...",
+  "Mapping Open Neighborhoods...",
+  "Verifying Disjointness (U ∩ V = ∅)...",
+  "Measuring Logical Entropy...",
+  "Extracting Entropy Chunks...",
+  "Reducing Rhetorical Noise...",
+  "Validating Grounding metadata...",
+  "Computing Rigor Coefficient...",
+  "Converging on Formal Output..."
+];
 
 const AIColloquium: React.FC = () => {
   const [input, setInput] = useState('');
   const [status, setStatus] = useState<AnalysisStatus>(AnalysisStatus.IDLE);
   const [result, setResult] = useState<IdeaSeparation | null>(null);
+  const [stepIndex, setStepIndex] = useState(0);
+
+  useEffect(() => {
+    // Fix: Use ReturnType<typeof setInterval> instead of NodeJS.Timeout for browser/Node compatibility
+    let interval: ReturnType<typeof setInterval> | undefined;
+    if (status === AnalysisStatus.THINKING) {
+      interval = setInterval(() => {
+        setStepIndex(prev => (prev + 1) % THINKING_STEPS.length);
+      }, 800);
+    } else {
+      setStepIndex(0);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [status]);
 
   const handleAnalyze = async () => {
     if (!input.trim()) return;
@@ -57,7 +87,7 @@ const AIColloquium: React.FC = () => {
             </div>
 
             {/* Output Area */}
-            <div className="border border-haus-gray bg-haus-black p-6 min-h-[16rem] relative overflow-hidden">
+            <div className="border border-haus-gray bg-haus-black p-6 min-h-[16rem] relative overflow-hidden flex flex-col">
                 {status === AnalysisStatus.IDLE && (
                     <div className="flex items-center justify-center h-full text-gray-700 font-mono text-xs">
                         AWAITING INPUT_
@@ -65,10 +95,22 @@ const AIColloquium: React.FC = () => {
                 )}
                 
                 {status === AnalysisStatus.THINKING && (
-                    <div className="flex flex-col items-center justify-center h-full space-y-4">
-                        <div className="w-12 h-12 border-t-2 border-l-2 border-haus-accent rounded-full animate-spin"></div>
-                        <p className="text-haus-accent font-mono text-xs animate-pulse">APPLYING HAUSDORFF AXIOMS...</p>
-                    </div>
+                    <>
+                        {/* Process Log Background */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center p-8 opacity-20 blur-[1px] select-none pointer-events-none overflow-hidden">
+                             <div className="space-y-2 text-center animate-pulse">
+                                {THINKING_STEPS.slice(Math.max(0, stepIndex - 2), stepIndex + 1).map((step, idx) => (
+                                    <p key={idx} className="text-xs font-mono text-gray-400 tracking-tight">{step}</p>
+                                ))}
+                             </div>
+                        </div>
+
+                        {/* Standard Spinner */}
+                        <div className="flex flex-col items-center justify-center h-full space-y-4 relative z-10">
+                            <div className="w-12 h-12 border-t-2 border-l-2 border-haus-accent rounded-full animate-spin"></div>
+                            <p className="text-haus-accent font-mono text-xs animate-pulse">APPLYING HAUSDORFF AXIOMS...</p>
+                        </div>
+                    </>
                 )}
 
                 {status === AnalysisStatus.ERROR && (
@@ -78,7 +120,7 @@ const AIColloquium: React.FC = () => {
                 )}
 
                 {status === AnalysisStatus.COMPLETE && result && (
-                    <div className="space-y-6 animate-fade-in">
+                    <div className="space-y-6 animate-fade-in flex-grow">
                         <div>
                             <span className="text-haus-accent font-mono text-xs uppercase block mb-1">Core Axiom</span>
                             <p className="text-white font-serif italic border-l-2 border-haus-accent pl-3">
@@ -95,7 +137,26 @@ const AIColloquium: React.FC = () => {
                             </ul>
                         </div>
 
-                         <div className="flex justify-between items-end border-t border-gray-800 pt-4">
+                        {result.groundingSources && result.groundingSources.length > 0 && (
+                            <div className="pt-2 border-t border-gray-900">
+                                <span className="text-haus-accent font-mono text-xs uppercase block mb-2">Validated Sources</span>
+                                <div className="flex flex-wrap gap-2">
+                                    {result.groundingSources.map((source, i) => (
+                                        <a 
+                                            key={i} 
+                                            href={source.uri} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="text-[10px] font-mono text-gray-500 hover:text-white transition-colors border border-gray-800 px-2 py-1 bg-neutral-900/50"
+                                        >
+                                            {source.title.length > 25 ? source.title.substring(0, 25) + '...' : source.title}
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                         <div className="flex justify-between items-end border-t border-gray-800 pt-4 mt-auto">
                              <div>
                                 <span className="text-gray-500 font-mono text-xs uppercase block mb-1">Entropy Removed</span>
                                 <p className="text-gray-600 text-xs italic">

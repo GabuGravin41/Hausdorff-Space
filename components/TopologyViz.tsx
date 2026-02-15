@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 
 const TopologyViz: React.FC = () => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const simulationRef = useRef<d3.Simulation<any, undefined>>(undefined);
 
   useEffect(() => {
@@ -56,6 +57,11 @@ const TopologyViz: React.FC = () => {
         .on("drag", dragged)
         .on("end", dragended));
 
+    // Invisible larger hit area for easier interaction
+    nodeGroups.append("circle")
+      .attr("r", 40)
+      .attr("fill", "transparent");
+
     nodeGroups.append("circle")
       .attr("r", 6)
       .attr("fill", d => d.color);
@@ -98,6 +104,19 @@ const TopologyViz: React.FC = () => {
       nodeGroups
         .attr("transform", (d: any) => `translate(${d.x},${d.y})`);
     });
+
+    // Intersection Observer for Sleep Mode
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          simulation.alpha(0.3).restart();
+        } else {
+          simulation.stop();
+        }
+      });
+    }, { threshold: 0.1 });
+
+    if (containerRef.current) observer.observe(containerRef.current);
 
     // Autonomous drift: Randomly nudge the simulation
     const driftInterval = setInterval(() => {
@@ -155,6 +174,7 @@ const TopologyViz: React.FC = () => {
     return () => {
         simulation.stop();
         clearInterval(driftInterval);
+        observer.disconnect();
         window.removeEventListener('resize', handleResize);
         window.removeEventListener('pointermove', handlePointerMove);
     }
@@ -162,7 +182,7 @@ const TopologyViz: React.FC = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden">
+    <div ref={containerRef} className="absolute inset-0 z-0 overflow-hidden">
       <svg ref={svgRef} className="w-full h-full" />
     </div>
   );
