@@ -1,7 +1,6 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "nodeVersion": "18.x",
   "functions": {
     "api/**/*.ts": {
       "runtime": "@vercel/node@3.0.0"
