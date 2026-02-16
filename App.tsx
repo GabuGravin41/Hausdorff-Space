@@ -73,6 +73,9 @@ const App: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mousePos, setMousePos] = useState({ x: -200, y: -200 });
   const revealRefs = useRef<(HTMLElement | null)[]>([]);
+  const membershipFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScmdopUeMBSdi4KKrpbeohZWvrQAGJPDW7n-HtUORa-lXnq0w/viewform?usp=publish-editor";
+  const contactEmail = "daltonomondi588@gmail.com";
+  const substackUrl = "https://substack.com";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -187,7 +190,13 @@ const App: React.FC = () => {
                 {link.label}
               </a>
             ))}
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScmdopUeMBSdi4KKrpbeohZWvrQAGJPDW7n-HtUORa-lXnq0w/viewform?usp=publish-editor" target="_blank" rel="noreferrer" className="text-haus-accent hover:text-white font-mono text-xs uppercase tracking-widest transition-colors border border-haus-accent px-3 py-1 hover:bg-haus-accent">
+            <a href={substackUrl} target="_blank" rel="noreferrer" className="text-gray-300 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors border border-gray-600 px-3 py-1 hover:border-white">
+                Substack
+            </a>
+            <a href={`mailto:${contactEmail}`} className="text-gray-300 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors border border-gray-600 px-3 py-1 hover:border-white">
+                Contact Us
+            </a>
+            <a href={membershipFormUrl} target="_blank" rel="noreferrer" className="text-haus-accent hover:text-white font-mono text-xs uppercase tracking-widest transition-colors border border-haus-accent px-3 py-1 hover:bg-haus-accent">
                 Join
             </a>
           </div>
@@ -223,7 +232,13 @@ const App: React.FC = () => {
                 </a>
               ))}
             </div>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScmdopUeMBSdi4KKrpbeohZWvrQAGJPDW7n-HtUORa-lXnq0w/viewform?usp=publish-editor" target="_blank" rel="noreferrer" className="mt-5 block text-center text-haus-accent border border-haus-accent/70 rounded-lg px-4 py-2 font-mono text-xs uppercase tracking-widest hover:bg-haus-accent hover:text-white transition-colors">
+            <a href={substackUrl} target="_blank" rel="noreferrer" className="mt-5 block text-center text-gray-200 border border-white/30 rounded-lg px-4 py-2 font-mono text-xs uppercase tracking-widest hover:bg-white/10 transition-colors">
+              Read Substack
+            </a>
+            <a href={`mailto:${contactEmail}`} className="mt-3 block text-center text-gray-200 border border-white/30 rounded-lg px-4 py-2 font-mono text-xs uppercase tracking-widest hover:bg-white/10 transition-colors">
+              Contact Us
+            </a>
+            <a href={membershipFormUrl} target="_blank" rel="noreferrer" className="mt-3 block text-center text-haus-accent border border-haus-accent/70 rounded-lg px-4 py-2 font-mono text-xs uppercase tracking-widest hover:bg-haus-accent hover:text-white transition-colors">
               Apply to Join
             </a>
           </div>
@@ -242,9 +257,14 @@ const App: React.FC = () => {
             A space where any two distinct points can be separated by disjoint open neighborhoods. 
             <br/><span className="text-haus-accent">No noise. No ambiguity. Just rigorous structure.</span>
           </p>
-          <a href="#manifesto" className="pointer-events-auto inline-block border border-white text-white px-8 py-3 font-mono text-sm hover:bg-white hover:text-black transition-all animate-fade-in" style={{ animationDelay: '0.6s' }}>
-            READ THE MANIFESTO
-          </a>
+          <div className="pointer-events-auto flex flex-wrap items-center justify-center gap-3 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+            <a href="#manifesto" className="inline-block border border-white text-white px-7 py-3 font-mono text-sm hover:bg-white hover:text-black transition-all">
+              READ THE MANIFESTO
+            </a>
+            <a href={substackUrl} target="_blank" rel="noreferrer" className="inline-block border border-white/40 text-gray-100 px-7 py-3 font-mono text-sm hover:border-white hover:bg-white/10 transition-all">
+              READ SUBSTACK
+            </a>
+          </div>
         </div>
         
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-600">
@@ -532,7 +552,7 @@ const App: React.FC = () => {
                  <h4 className="text-haus-text font-serif italic text-sm text-gray-400">Hausdorff Letters</h4>
                  <p className="text-xs text-gray-600 max-w-xs">Monthly publications: math expositions, paper notes, philosophical pieces.</p>
                  <div className="flex gap-6 mt-2">
-                    <a href="#" className="text-gray-500 hover:text-white transition-colors text-xs font-mono uppercase tracking-widest">Read Substack</a>
+                    <a href={substackUrl} target="_blank" rel="noreferrer" className="text-gray-500 hover:text-white transition-colors text-xs font-mono uppercase tracking-widest">Read Substack</a>
                     <a href="#" className="text-gray-500 hover:text-white transition-colors text-xs font-mono uppercase tracking-widest">WhatsApp</a>
                  </div>
             </div>
