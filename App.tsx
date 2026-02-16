@@ -187,7 +187,7 @@ const App: React.FC = () => {
                 {link.label}
               </a>
             ))}
-            <a href="https://docs.google.com/forms" target="_blank" rel="noreferrer" className="text-haus-accent hover:text-white font-mono text-xs uppercase tracking-widest transition-colors border border-haus-accent px-3 py-1 hover:bg-haus-accent">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScmdopUeMBSdi4KKrpbeohZWvrQAGJPDW7n-HtUORa-lXnq0w/viewform?usp=publish-editor" target="_blank" rel="noreferrer" className="text-haus-accent hover:text-white font-mono text-xs uppercase tracking-widest transition-colors border border-haus-accent px-3 py-1 hover:bg-haus-accent">
                 Join
             </a>
           </div>
@@ -223,7 +223,7 @@ const App: React.FC = () => {
                 </a>
               ))}
             </div>
-            <a href="https://docs.google.com/forms" target="_blank" rel="noreferrer" className="mt-5 block text-center text-haus-accent border border-haus-accent/70 rounded-lg px-4 py-2 font-mono text-xs uppercase tracking-widest hover:bg-haus-accent hover:text-white transition-colors">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScmdopUeMBSdi4KKrpbeohZWvrQAGJPDW7n-HtUORa-lXnq0w/viewform?usp=publish-editor" target="_blank" rel="noreferrer" className="mt-5 block text-center text-haus-accent border border-haus-accent/70 rounded-lg px-4 py-2 font-mono text-xs uppercase tracking-widest hover:bg-haus-accent hover:text-white transition-colors">
               Apply to Join
             </a>
           </div>
