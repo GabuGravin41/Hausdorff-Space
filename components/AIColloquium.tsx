@@ -178,6 +178,13 @@ const AIColloquium: React.FC = () => {
                             </div>
                         )}
 
+                        {result.constructiveCritique && (
+                            <div className="border border-haus-gray bg-neutral-900/50 p-3">
+                                <span className="text-gray-600 font-mono text-xs uppercase block mb-2">Constructive Critique</span>
+                                <p className="text-gray-400 text-xs leading-relaxed italic">{result.constructiveCritique}</p>
+                            </div>
+                        )}
+
                          <div className="flex justify-between items-end border-t border-gray-800 pt-4 mt-auto">
                              <div>
                                 <span className="text-gray-500 font-mono text-xs uppercase block mb-1">Entropy Removed</span>

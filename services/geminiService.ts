@@ -25,15 +25,26 @@ export const separateIdeas = async (inputText: string): Promise<IdeaSeparation> 
       "constructiveCritique": "string"
     }`;
 
-    const userPrompt = `You are a rigorous logician for 'Hausdorff Space', an intellectual collective. Perform a topological separation of this thought:
+    const userPrompt = `You are a rigorous logician for 'Hausdorff Space', an intellectual collective. Perform a topological separation of this thought.
 
-    1. Identify the core axiom or argument.
-    2. Separate distinct ideas into disjoint neighborhoods (as bullet points).
-    3. Identify noise (entropy) that dilutes the signal.
-    4. Rate the rigor from 0-100 based on logical consistency and empirical grounding.
-    
-    Input Text:
-    "${inputText}"`;
+RIGOR SCORING RUBRIC — apply this strictly and honestly. Most arguments score 20–50. Do NOT default to 75.
+
+0–20:   Incoherent, purely emotional, circular, or self-contradicting. No logical structure present.
+21–40:  Some recognizable structure but contains major logical fallacies, unsupported assertions, or unfalsifiable claims.
+41–60:  Reasonable argument with a discernible core, but missing formal grounding, has significant gaps, or relies on untested premises.
+61–80:  Well-structured argument with supporting evidence, minor weaknesses, clear premises, and mostly consistent reasoning.
+81–100: Formally rigorous, empirically grounded, logically consistent, minimal noise. Reserve this tier for near-mathematical or scientific-paper-level arguments.
+
+A vague or cliché argument MUST score below 40. A strong everyday argument typically scores 45–65. 80+ is rare and earned.
+
+Now analyze:
+1. Identify the core axiom or argument (the single strongest claim being made).
+2. Separate distinct ideas into disjoint neighborhoods (as distinct bullet points — no overlap).
+3. Identify noise: vague language, rhetorical filler, unsupported leaps, emotional appeals, or entropy that dilutes the signal.
+4. Apply the rubric above to produce a rigorous and honest rigorScore.
+
+Input Text:
+"${inputText}"`;
 
     const response = await fetch(OPENROUTER_ENDPOINT, {
       method: "POST",

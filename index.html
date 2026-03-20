@@ -4,6 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hausdorff Space | Topology of Thought</title>
+    <meta name="description" content="Hausdorff Space is a Nairobi intellectual collective — decomposing research papers, patents, and big ideas for the public. Mathematics, philosophy, science." />
+
+    <!-- OpenGraph (LinkedIn, WhatsApp, Facebook) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Hausdorff Space | Topology of Thought" />
+    <meta property="og:description" content="A Nairobi intellectual collective where any two distinct ideas can be separated. We decompose Nature papers, WIPO patents, and big ideas — for everyone." />
+    <meta property="og:url" content="https://hausdorff-space.vercel.app" />
+    <meta property="og:site_name" content="Hausdorff Space" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Hausdorff Space | Topology of Thought" />
+    <meta name="twitter:description" content="A Nairobi intellectual collective where any two distinct ideas can be separated. Mathematics · Philosophy · Science." />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -59,12 +72,53 @@
       /* Entrance Animation Utility */
       .reveal-hidden {
         opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        transform: translateY(24px);
+        transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
       }
       .reveal-visible {
         opacity: 1;
         transform: translateY(0);
+      }
+
+      /* Floating ambient symbol animation */
+      @keyframes floatSymbol {
+        0%   { transform: translateY(0px) rotate(0deg); opacity: 0; }
+        10%  { opacity: 1; }
+        50%  { transform: translateY(-30px) rotate(8deg); }
+        90%  { opacity: 1; }
+        100% { transform: translateY(-60px) rotate(-4deg); opacity: 0; }
+      }
+      .animate-float-symbol {
+        animation: floatSymbol linear infinite;
+      }
+
+      /* Subtle grid texture overlay */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(99,102,241,0.015) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(99,102,241,0.015) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      /* Thin accent line on section hover */
+      .section-line {
+        position: relative;
+      }
+      .section-line::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 0; height: 1px;
+        background: #6366f1;
+        transition: width 0.4s ease;
+      }
+      .section-line:hover::after {
+        width: 100%;
       }
     </style>
     <!-- KaTeX for LaTeX rendering -->
